@@ -1,3 +1,5 @@
+source 'https://github.com/levelshealth/ChartsSpec.git'
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 
 #use_frameworks!
@@ -37,6 +39,7 @@ target 'Example' do
 
     pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
     pod 'RNCharts', :path => '../../'
+    pod 'Charts', :git => 'https://github.com/levelshealth/Charts.git', :branch => 'jhon_cruz/ch3118/improve-data-pending-states-on-dashboard'
 
     
 
