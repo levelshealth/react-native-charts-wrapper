@@ -39,7 +39,7 @@ target 'Example' do
 
     pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
     pod 'RNCharts', :path => '../../'
-    pod 'Charts', :git => 'https://github.com/levelshealth/Charts.git', :branch => 'jhon_cruz/ch3118/improve-data-pending-states-on-dashboard'
+    pod 'Charts', :git => 'https://github.com/levelshealth/Charts.git', :branch => 'master'
 
     
 
