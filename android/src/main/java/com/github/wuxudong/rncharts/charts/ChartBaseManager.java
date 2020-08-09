@@ -2,6 +2,7 @@ package com.github.wuxudong.rncharts.charts;
 
 import android.content.res.ColorStateList;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.react.bridge.ReadableArray;
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.RangeSeparator;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.data.Entry;
@@ -28,6 +30,7 @@ import com.github.wuxudong.rncharts.data.DataExtract;
 import com.github.wuxudong.rncharts.markers.RNRectangleMarkerView;
 import com.github.wuxudong.rncharts.markers.RNCircleMarkerView;
 import com.github.wuxudong.rncharts.utils.BridgeUtils;
+import com.github.wuxudong.rncharts.utils.DrawableUtils;
 import com.github.wuxudong.rncharts.utils.EasingFunctionHelper;
 import com.github.wuxudong.rncharts.utils.TypefaceUtils;
 
@@ -439,8 +442,97 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
 
             }
         }
+
+        // range separators
+        if (BridgeUtils.validate(propMap, ReadableType.Array, "rangeSeparators")) {
+            ReadableArray rangeSeparators = propMap.getArray("rangeSeparators");
+
+            axis.removeAllRangeSeparators();
+            for (int i = 0; i < rangeSeparators.size(); i++) {
+                if (!ReadableType.Map.equals(rangeSeparators.getType(i))) {
+                    continue;
+                }
+                
+                ReadableMap rangeSeparatorsMap = rangeSeparators.getMap(i);
+
+                if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "from") && BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "to")) {
+                    RangeSeparator rangeSeparator= new RangeSeparator((float) rangeSeparatorsMap.getDouble("from"), (float) rangeSeparatorsMap.getDouble("to"));
+
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.String, "label")) {
+                        rangeSeparator.setLabel(rangeSeparatorsMap.getString("label"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "height")) {
+                        rangeSeparator.setHeight(rangeSeparatorsMap.getInt("height"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "xOffset")) {
+                        rangeSeparator.setXOffset(rangeSeparatorsMap.getInt("xOffset"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "yOffset")) {
+                        rangeSeparator.setYOffset(rangeSeparatorsMap.getInt("yOffset"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "lineColor")) {
+                        rangeSeparator.setLineColor(rangeSeparatorsMap.getInt("lineColor"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "bottomLineColor")) {
+                        rangeSeparator.setBottomLineColor(rangeSeparatorsMap.getInt("bottomLineColor"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "lineWidth")) {
+                        rangeSeparator.setLineWidth((float) rangeSeparatorsMap.getDouble("lineWidth"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "bottomLineWidth")) {
+                        rangeSeparator.setBottomLineWidth((float) rangeSeparatorsMap.getDouble("bottomLineWidth"));
+                    }
+
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "valueTextColor")) {
+                        rangeSeparator.setTextColor(rangeSeparatorsMap.getInt("valueTextColor"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "valueFont")) {
+                        rangeSeparator.setTextSize(rangeSeparatorsMap.getInt("valueFont"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "lineDashPhase")
+                            && BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Array, "lineDashLengths")) {
+                        if (rangeSeparatorsMap.getArray("lineDashLengths").size() > 1) {
+                            float lineDashPhase = (float) rangeSeparatorsMap.getDouble("lineDashPhase");
+                            float lineLength = rangeSeparatorsMap.getArray("lineDashLengths").getInt(0);
+                            float spaceLength = rangeSeparatorsMap.getArray("lineDashLengths").getInt(1);
+                            rangeSeparator.enableDashedLine(lineLength, spaceLength, lineDashPhase);
+                        }
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "bottomLineDashPhase")
+                            && BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Array, "bottomLineDashLengths")) {
+                        if (rangeSeparatorsMap.getArray("bottomLineDashLengths").size() > 1) {
+                            float lineDashPhase = (float) rangeSeparatorsMap.getDouble("bottomLineDashPhase");
+                            float lineLength = rangeSeparatorsMap.getArray("bottomLineDashLengths").getInt(0);
+                            float spaceLength = rangeSeparatorsMap.getArray("bottomLineDashLengths").getInt(1);
+                            rangeSeparator.enableBottomDashedLine(lineLength, spaceLength, lineDashPhase);
+                        }
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Map, "icon")) {
+                        ReadableMap icon = rangeSeparatorsMap.getMap("icon");
+                        ReadableMap bundle = icon.getMap("bundle");
+
+                        int width = icon.getInt("width");
+                        int height = icon.getInt("height");
+                        rangeSeparator.setIcon(DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "iconXOffset")) {
+                        rangeSeparator.setIconXOffset(rangeSeparatorsMap.getInt("iconXOffset"));
+                    }
+                    if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "iconYOffset")) {
+                        rangeSeparator.setIconYOffset(rangeSeparatorsMap.getInt("iconYOffset"));
+                    }
+
+                    axis.addRangeSeparator(rangeSeparator);
+                }
+
+            }
+        }
         if (BridgeUtils.validate(propMap, ReadableType.Boolean, "drawLimitLinesBehindData")) {
             axis.setDrawLimitLinesBehindData(propMap.getBoolean("drawLimitLinesBehindData"));
+        }
+
+        if (BridgeUtils.validate(propMap, ReadableType.Boolean, "drawRangeSeparatorsBehindData")) {
+            axis.setDrawRangeSeparatorsBehindData(propMap.getBoolean("drawRangeSeparatorsBehindData"));
         }
 
         if (BridgeUtils.validate(propMap, ReadableType.Number, "axisMaximum")) {

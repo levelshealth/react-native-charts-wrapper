@@ -1,175 +1,177 @@
-import React from 'react';
+import React from "react";
 import {
   Platform,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
-  View,
   Text,
-} from 'react-native';
-
-import {createAppContainer, SafeAreaView} from 'react-navigation';
-import {createStackNavigator } from 'react-navigation-stack';
-
-import AxisLineChartScreen from './AxisLineChartScreen';
-import MultipleChartScreen from './MultipleChartScreen';
-import MovingWindowChartScreen from './MovingWindowChartScreen';
-import BarChartScreen from './BarChartScreen';
-import HorizontalBarChartScreen from './HorizontalBarChartScreen';
-import BubbleChartScreen from './BubbleChartScreen';
-import CandleStickChartScreen from './CandleStickChartScreen';
-import CombinedChartScreen from './CombinedChartScreen';
-import LineChartScreen from './LineChartScreen';
-import LineChartGradientScreen from './LineChartGradientScreen';
-import TimeSeriesLineChartScreen from './TimeSeriesLineChartScreen';
-import PieChartScreen from './PieChartScreen';
-import RadarChartScreen from './RadarChartScreen';
-import ScatterChartScreen from './ScatterChartScreen';
-import StackedBarChartScreen from './StackedBarChartScreen';
-import ZeroLineChartScreen from './ZeroLineChartScreen';
-import LiveUpdateChartScreen from './LiveUpdateChartScreen';
-import GroupBarChartScreen from './GroupBarChartScreen';
-import InfiniteScrollLineChartScreen from './InfiniteScrollLineChartScreen';
-import LinkageChartScreen from './LinkageChartScreen';
-import StockChartScreen from './StockChartScreen';
-
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { createAppContainer, SafeAreaView } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import AxisLineChartScreen from "./AxisLineChartScreen";
+import BarChartScreen from "./BarChartScreen";
+import BubbleChartScreen from "./BubbleChartScreen";
+import CandleStickChartScreen from "./CandleStickChartScreen";
+import CombinedChartScreen from "./CombinedChartScreen";
+import GroupBarChartScreen from "./GroupBarChartScreen";
+import HorizontalBarChartScreen from "./HorizontalBarChartScreen";
+import InfiniteScrollLineChartScreen from "./InfiniteScrollLineChartScreen";
+import LineChartGradientScreen from "./LineChartGradientScreen";
+import LineChartRangeSeparatorScreen from "./LineChartRangeSeparatorScreen";
+import LineChartScreen from "./LineChartScreen";
+import LinkageChartScreen from "./LinkageChartScreen";
+import LiveUpdateChartScreen from "./LiveUpdateChartScreen";
+import MovingWindowChartScreen from "./MovingWindowChartScreen";
+import MultipleChartScreen from "./MultipleChartScreen";
+import PieChartScreen from "./PieChartScreen";
+import RadarChartScreen from "./RadarChartScreen";
+import ScatterChartScreen from "./ScatterChartScreen";
+import StackedBarChartScreen from "./StackedBarChartScreen";
+import StockChartScreen from "./StockChartScreen";
+import TimeSeriesLineChartScreen from "./TimeSeriesLineChartScreen";
+import ZeroLineChartScreen from "./ZeroLineChartScreen";
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#ddd',
+    borderBottomColor: "#ddd",
   },
   image: {
     width: 120,
     height: 120,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 20,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#444',
+    fontWeight: "bold",
+    color: "#444",
   },
   description: {
     fontSize: 13,
-    color: '#999',
+    color: "#999",
   },
 });
 
 var ExampleRoutes = {
   PieChartScreen: {
-    name: 'PieChart',
+    name: "PieChart",
     screen: PieChartScreen,
-    description: 'Displays a PieChart',
+    description: "Displays a PieChart",
   },
   BarChartScreen: {
-    name: 'BarChart',
+    name: "BarChart",
     screen: BarChartScreen,
-    description: 'Displays a BarChart',
+    description: "Displays a BarChart",
   },
   StackedBarChartScreen: {
-    name: 'StackedBarChart',
+    name: "StackedBarChart",
     screen: StackedBarChartScreen,
-    description: 'Displays a StackedBarChart',
+    description: "Displays a StackedBarChart",
   },
   LineChartScreen: {
-    name: 'LineChart',
+    name: "LineChart",
     screen: LineChartScreen,
-    description: 'Displays a LineChart',
+    description: "Displays a LineChart",
   },
   LineChartGradientScreen: {
-    name: 'LineChartGradient',
+    name: "LineChartGradient",
     screen: LineChartGradientScreen,
-    description: 'Displays a LineChart with Gradient',
+    description: "Displays a LineChart with Gradient",
   },
   RadarChartScreen: {
-    name: 'RadarChart',
+    name: "RadarChart",
     screen: RadarChartScreen,
-    description: 'Displays a RadarChart',
+    description: "Displays a RadarChart",
   },
   BubbleChartScreen: {
-    name: 'BubbleChart',
+    name: "BubbleChart",
     screen: BubbleChartScreen,
-    description: 'Displays a BubbleChart',
+    description: "Displays a BubbleChart",
   },
   ScatterChartScreen: {
-    name: 'ScatterChart',
+    name: "ScatterChart",
     screen: ScatterChartScreen,
-    description: 'Displays a ScatterChart',
+    description: "Displays a ScatterChart",
   },
   CandleStickChartScreen: {
-    name: 'CandleStickChart',
+    name: "CandleStickChart",
     screen: CandleStickChartScreen,
-    description: 'Displays a CandleStickChart',
+    description: "Displays a CandleStickChart",
   },
   StockChartScreen: {
-    name: 'StockChartScreen',
+    name: "StockChartScreen",
     screen: StockChartScreen,
-    description: 'Displays a StockChartScreen',
+    description: "Displays a StockChartScreen",
   },
   TimeSeriesLineChartScreen: {
-    name: 'TimeSeriesLineChart',
+    name: "TimeSeriesLineChart",
     screen: TimeSeriesLineChartScreen,
-    description: 'Displays a Time Series Line Chart with custom marker',
+    description: "Displays a Time Series Line Chart with custom marker",
   },
   CombinedChartScreen: {
-    name: 'CombinedChart',
+    name: "CombinedChart",
     screen: CombinedChartScreen,
-    description: 'Displays a CombinedChart with Bar and Line data.',
+    description: "Displays a CombinedChart with Bar and Line data.",
   },
   ZeroLineChartScreen: {
-    name: 'ZeroLineChart',
+    name: "ZeroLineChart",
     screen: ZeroLineChartScreen,
-    description: 'Displays a zero-based BarChart.',
+    description: "Displays a zero-based BarChart.",
   },
   LiveUpdateChartScreen: {
-    name: 'LiveUpdateChart',
+    name: "LiveUpdateChart",
     screen: LiveUpdateChartScreen,
-    description: 'Live updating a line chart',
+    description: "Live updating a line chart",
   },
   GroupBarChartScreen: {
-    name: 'GroupBarChart',
+    name: "GroupBarChart",
     screen: GroupBarChartScreen,
-    description: 'Displays a group BarChart',
+    description: "Displays a group BarChart",
   },
   HorizontalBarChartScreen: {
-    name: 'HorizontalBarChart',
+    name: "HorizontalBarChart",
     screen: HorizontalBarChartScreen,
-    description: 'Displays a HorizontalBarChart',
+    description: "Displays a HorizontalBarChart",
   },
   AxisLineChartScreen: {
-    name: 'AxisLineChart',
+    name: "AxisLineChart",
     screen: AxisLineChartScreen,
-    description: 'Displays a AxisLineChart',
+    description: "Displays a AxisLineChart",
   },
   MultipleChartScreen: {
-    name: 'MultipleChartScreen',
+    name: "MultipleChartScreen",
     screen: MultipleChartScreen,
-    description: 'Displays a correlated MultipleChartScreen',
+    description: "Displays a correlated MultipleChartScreen",
   },
   MovingWindowChartScreen: {
-    name: 'MovingWindowChartScreen',
+    name: "MovingWindowChartScreen",
     screen: MovingWindowChartScreen,
-    description: 'Displays a MovingWindowChartScreen',
+    description: "Displays a MovingWindowChartScreen",
   },
   InfiniteScrollLineChartScreen: {
-    name: 'InfiniteScrollLineChartScreen',
+    name: "InfiniteScrollLineChartScreen",
     screen: InfiniteScrollLineChartScreen,
-    description: 'Displays a InfiniteScrollChartScreen',
+    description: "Displays a InfiniteScrollChartScreen",
   },
   LinkageChartScreen: {
-    name: 'LinkageChartScreen',
+    name: "LinkageChartScreen",
     screen: LinkageChartScreen,
-    description: 'Displays a LinkageChartScreen',
+    description: "Displays a LinkageChartScreen",
+  },
+  LineChartRangeSeparatorScreen: {
+    name: "LineChartRangeSeparatorScreen",
+    screen: LineChartRangeSeparatorScreen,
+    description: "Displays a LineChartRangeSeparatorScreen",
   },
 };
 
-const MainScreen = ({navigation}) => (
-
+const MainScreen = ({ navigation }) => (
   <ScrollView style={{ flex: 1 }} contentInsetAdjustmentBehavior="automatic">
     {Object.keys(ExampleRoutes).map((routeName) => (
       <TouchableOpacity
@@ -183,7 +185,7 @@ const MainScreen = ({navigation}) => (
       >
         <SafeAreaView
           style={styles.itemContainer}
-          forceInset={{ vertical: 'never' }}
+          forceInset={{ vertical: "never" }}
         >
           <View style={styles.item}>
             <Text style={styles.title}>{ExampleRoutes[routeName].name}</Text>
@@ -198,7 +200,7 @@ const MainScreen = ({navigation}) => (
 );
 
 MainScreen.navigationOptions = {
-  title: 'Home',
+  title: "Home",
 };
 
 const ChartsExplorer = createStackNavigator(
@@ -207,19 +209,17 @@ const ChartsExplorer = createStackNavigator(
       screen: MainScreen,
     },
     ...ExampleRoutes,
-
   },
   {
-    initialRouteName: 'Index',
-    headerMode: 'screen',
-
+    initialRouteName: "Index",
+    headerMode: "screen",
 
     /*
-   * Use modal on iOS because the card mode comes from the right,
-   * which conflicts with the drawer example gesture
-   */
-    mode: Platform.OS === 'ios' ? 'modal' : 'card',
-  },
+     * Use modal on iOS because the card mode comes from the right,
+     * which conflicts with the drawer example gesture
+     */
+    mode: Platform.OS === "ios" ? "modal" : "card",
+  }
 );
 
 export default createAppContainer(ChartsExplorer);

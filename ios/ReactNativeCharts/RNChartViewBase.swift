@@ -427,10 +427,114 @@ open class RNChartViewBase: UIView, ChartViewDelegate, NSUIGestureRecognizerDele
                 }
             }
         }
+        
+        // range separators
+        if config["rangeSeparators"].array != nil {
+            let rangeSeparatorsConfig = config["rangeSeparators"].arrayValue
 
+            axis.removeAllRangeSeparators()
+            for rangeSeparatorConfig in rangeSeparatorsConfig {
+
+                if rangeSeparatorConfig["from"].double != nil {
+                    
+                    let rangeSeparator = ChartRangeSeparator(
+                        from: rangeSeparatorConfig["from"].doubleValue,
+                        to:rangeSeparatorConfig["to"].doubleValue,
+                        label: ""
+                    )
+                    
+                    if rangeSeparatorConfig["label"].string != nil {
+                        rangeSeparator.label = rangeSeparatorConfig["label"].stringValue
+                    }
+                    
+                    if rangeSeparatorConfig["height"].number != nil {
+                        rangeSeparator.height = CGFloat(truncating: rangeSeparatorConfig["height"].numberValue)
+                    }
+                    
+                    if rangeSeparatorConfig["xOffset"].number != nil {
+                        rangeSeparator.xOffset = CGFloat(truncating: rangeSeparatorConfig["xOffset"].numberValue)
+                    }
+                    
+                    if rangeSeparatorConfig["yOffset"].number != nil {
+                        rangeSeparator.yOffset = CGFloat(truncating: rangeSeparatorConfig["yOffset"].numberValue)
+                    }
+                    
+                    if (rangeSeparatorConfig["lineColor"].int != nil) {
+                        rangeSeparator.lineColor = RCTConvert.uiColor(rangeSeparatorConfig["lineColor"].intValue)
+                    }
+                    
+                    if (rangeSeparatorConfig["bottomLineColor"].int != nil) {
+                        rangeSeparator.bottomLineColor = RCTConvert.uiColor(rangeSeparatorConfig["bottomLineColor"].intValue)
+                    }
+                    
+                    if (rangeSeparatorConfig["valueTextColor"].int != nil) {
+                        rangeSeparator.valueTextColor = RCTConvert.uiColor(rangeSeparatorConfig["valueTextColor"].intValue)
+                    }
+                    
+                    if (rangeSeparatorConfig["valueFont"].int != nil) {
+                        rangeSeparator.valueFont = NSUIFont.systemFont(ofSize: CGFloat(rangeSeparatorConfig["valueFont"].intValue))
+                    }
+                    
+                    if rangeSeparatorConfig["lineWidth"].number != nil {
+                        rangeSeparator.lineWidth = CGFloat(truncating: rangeSeparatorConfig["lineWidth"].numberValue)
+                    }
+                    
+                    if rangeSeparatorConfig["bottomLineWidth"].number != nil {
+                        rangeSeparator.bottomLineWidth = CGFloat(truncating: rangeSeparatorConfig["bottomLineWidth"].numberValue)
+                    }
+                    
+                    
+                    if rangeSeparatorConfig["lineDashPhase"].float != nil {
+                        rangeSeparator.lineDashPhase = CGFloat(rangeSeparatorConfig["lineDashPhase"].floatValue);
+                    }
+                    if rangeSeparatorConfig["lineDashLengths"].arrayObject != nil {
+                        rangeSeparator.lineDashLengths = rangeSeparatorConfig["lineDashLengths"].arrayObject as? [CGFloat];
+                    }
+                    
+                    if rangeSeparatorConfig["bottomLineDashPhase"].float != nil {
+                        rangeSeparator.bottomLineDashPhase = CGFloat(rangeSeparatorConfig["bottomLineDashPhase"].floatValue);
+                    }
+                    if rangeSeparatorConfig["bottomLineDashLengths"].arrayObject != nil {
+                        rangeSeparator.bottomLineDashLengths = rangeSeparatorConfig["bottomLineDashLengths"].arrayObject as? [CGFloat];
+                    }
+                    
+                    if rangeSeparatorConfig["icon"].exists() {
+                        let icon = rangeSeparatorConfig["icon"]
+                        if icon["bundle"].dictionary != nil {
+                            let bundle = icon["bundle"];
+                            
+                            let uiImage = RCTConvert.uiImage(bundle.dictionaryObject);
+                            let width = CGFloat(truncating: icon["width"].numberValue)/4;
+                            let height = CGFloat(truncating: icon["height"].numberValue)/4;
+                            
+                            if let image = uiImage {
+                                let realIconImage = resizeImage(image: image, width: width, height: height);
+                                rangeSeparator.icon = realIconImage;
+                            }
+                        }
+                    }
+                    
+                    if rangeSeparatorConfig["iconXOffset"].float != nil {
+                        rangeSeparator.iconXOffset = CGFloat(rangeSeparatorConfig["iconXOffset"].floatValue);
+                    }
+                    
+                    if rangeSeparatorConfig["iconYOffset"].float != nil {
+                        rangeSeparator.iconYOffset = CGFloat(rangeSeparatorConfig["iconYOffset"].floatValue);
+                    }
+                    
+                    axis.addRangeSeparator(rangeSeparator)
+                }
+            }
+        }
+        
+        if config["drawRangeSeparatorsBehindData"].bool != nil {
+            axis.drawRangeSeparatorsBehindDataEnabled = config["drawRangeSeparatorsBehindData"].boolValue
+        }
+        
         if config["drawLimitLinesBehindData"].bool != nil {
             axis.drawLimitLinesBehindDataEnabled = config["drawLimitLinesBehindData"].boolValue
         }
+        
 
         if config["axisMaximum"].double != nil {
             axis.axisMaximum = config["axisMaximum"].doubleValue
@@ -636,6 +740,34 @@ open class RNChartViewBase: UIView, ChartViewDelegate, NSUIGestureRecognizerDele
             ChartGroupHolder.addChart(group: self.group!, identifier: self.identifier!, chart: chart as! BarLineChartViewBase, syncX: syncX, syncY: syncY);
         }
 
+    }
+    
+   func resizeImage(image: UIImage, width: CGFloat, height: CGFloat) -> UIImage {
+        let targetSize = CGSize(width: width, height: height)
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+
+        if #available(iOS 10.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: newSize)
+            return renderer.image { (context) in
+                image.draw(in: CGRect(origin: .zero, size: newSize))
+            }
+        } else {
+            return image
+        }
+        
+        
     }
 
 }
