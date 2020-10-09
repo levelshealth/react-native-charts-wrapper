@@ -6,7 +6,9 @@
   },
   "version": "0.5.7",
   "description": "A react-native charts support both android and iOS.",
-  "author": "wuxudong",
+  "author": {
+    "name": "wuxudong"
+  },
   "license": "MIT",
   "nativePackage": true,
   "homepage": "https://github.com/wuxudong/react-native-charts-wrapper",
