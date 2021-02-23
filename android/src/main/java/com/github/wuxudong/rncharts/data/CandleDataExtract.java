@@ -1,5 +1,6 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
 import android.graphics.Paint;
 
 import com.facebook.react.bridge.ReadableArray;
@@ -70,7 +71,7 @@ public class CandleDataExtract extends DataExtract<CandleData, CandleEntry> {
     }
 
     @Override
-    CandleEntry createEntry(ReadableArray values, int index) {
+    CandleEntry createEntry(Context context, ReadableArray values, int index) {
         if (!ReadableType.Map.equals(values.getType(index))) {
             throw new IllegalArgumentException();
         }

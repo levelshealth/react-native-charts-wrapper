@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -40,7 +42,7 @@ public class RadarDataExtract extends DataExtract<RadarData, RadarEntry> {
     }
 
     @Override
-    RadarEntry createEntry(ReadableArray values, int index) {
+    RadarEntry createEntry(Context context, ReadableArray values, int index) {
         RadarEntry entry;
 
         if (ReadableType.Map.equals(values.getType(index))) {

@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -64,7 +66,7 @@ public class CombinedDataExtract extends DataExtract<CombinedData, Entry> {
     }
 
     @Override
-    Entry createEntry(ReadableArray values, int index) {
+    Entry createEntry(Context context, ReadableArray values, int index) {
         throw new UnsupportedOperationException();
     }
 }
