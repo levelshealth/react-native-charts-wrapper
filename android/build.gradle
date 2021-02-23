@@ -8,6 +8,7 @@ buildscript {
         repositories {
             google()
             jcenter()
+            maven {url 'https://plugins.gradle.org/m2/' }
         }
         
         dependencies {
@@ -35,6 +36,8 @@ repositories {
     flatDir { dirs 'libs' }
     google()
     maven { url "https://jitpack.io" }
+    // org.jetbrains.trove4j:trove4j:20160824.
+    maven { url 'https://plugins.gradle.org/m2/' }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

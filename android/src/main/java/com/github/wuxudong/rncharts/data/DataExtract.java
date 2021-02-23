@@ -1,5 +1,7 @@
 package com.github.wuxudong.rncharts.data;
 
+import android.content.Context;
+
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -33,7 +35,7 @@ public abstract class DataExtract<D extends ChartData, U extends Entry> {
             ReadableArray values = dataSetReadableMap.getArray("values");
             String label = dataSetReadableMap.getString("label");
 
-            ArrayList<U> entries = createEntries(values);
+            ArrayList<U> entries = createEntries(chart.getContext(), values);
 
             IDataSet<U> dataSet = createDataSet(entries, label);
 
@@ -61,17 +63,17 @@ public abstract class DataExtract<D extends ChartData, U extends Entry> {
 
     abstract void dataSetConfig(Chart chart, IDataSet<U> dataSet, ReadableMap config);
 
-    ArrayList<U> createEntries(ReadableArray yValues) {
+    ArrayList<U> createEntries(Context context, ReadableArray yValues) {
         ArrayList<U> entries = new ArrayList<>(yValues.size());
         for (int j = 0; j < yValues.size(); j++) {
             if (!yValues.isNull(j)) {
-                entries.add(createEntry(yValues, j));
+                entries.add(createEntry(context, yValues, j));
             }
         }
         return entries;
     }
 
-    abstract U createEntry(ReadableArray values, int index);
+    abstract U createEntry(Context context,ReadableArray values, int index);
 
 
 }

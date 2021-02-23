@@ -513,7 +513,7 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
 
                         int width = icon.getInt("width");
                         int height = icon.getInt("height");
-                        rangeSeparator.setIcon(DrawableUtils.drawableFromUrl(bundle.getString("uri"), width, height));
+                        rangeSeparator.setIcon(DrawableUtils.drawableFromUrl(chart.getContext(), bundle.getString("uri"), width, height));
                     }
                     if (BridgeUtils.validate(rangeSeparatorsMap, ReadableType.Number, "iconXOffset")) {
                         rangeSeparator.setIconXOffset(rangeSeparatorsMap.getInt("iconXOffset"));
